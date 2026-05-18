@@ -49,7 +49,7 @@ with st.sidebar:
         help="How many decision paths to combine. More paths increase accuracy but slow down training."
     )
     lr_max_iter    = st.slider(
-        "Max Training Steps (Log. Reg.)",
+        "Max Training Steps (Logistic Regression)",
         200, 2000, 1000, 100,
         help="Limits how many times the model can adjust itself. Increase this if the training stops early."
     )
