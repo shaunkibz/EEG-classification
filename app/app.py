@@ -29,17 +29,36 @@ st.markdown(
 with st.sidebar:
     st.header("Settings")
     uploaded_file = st.file_uploader(
-        "Upload CSV", type=["csv"],
-        help="Kaggle: Epileptic Seizure Recognition dataset"
+        "Upload Data (.csv)", type=["csv"],
+        help="Upload the spreadsheet with the brain wave recordings and seizure labels."
     )
     st.markdown("---")
-    test_size      = st.slider("Test set size", 0.10, 0.40, 0.20, 0.05)
-    random_state   = st.number_input("Random state", value=42, step=1)
-    n_estimators   = st.slider("RF — n_estimators", 50, 500, 100, 50)
-    lr_max_iter    = st.slider("LR — max_iter", 200, 2000, 1000, 100)
-    top_n_features = st.slider("Top N features to display", 5, 30, 20, 5)
+    test_size      = st.slider(
+        "Test Data Size",
+        0.10, 0.40, 0.20, 0.05,
+        help="Percentage of data set aside to test the model after training. 0.20 means 20% is used for testing."
+    )
+    random_state   = st.number_input(
+        "Shuffle Seed",
+        value=42, step=1,
+        help="Keeps the data mix consistent each time you run the app. Leave as 42 for repeatable results."
+    )
+    n_estimators   = st.slider(
+        "Forest Size (Random Forest)",
+        50, 500, 100, 50,
+        help="How many decision paths to combine. More paths increase accuracy but slow down training."
+    )
+    lr_max_iter    = st.slider(
+        "Max Training Steps (Log. Reg.)",
+        200, 2000, 1000, 100,
+        help="Limits how many times the model can adjust itself. Increase this if the training stops early."
+    )
+    top_n_features = st.slider(
+        "Top Signals to Show",
+        5, 30, 20, 5,
+        help="How many of the most important brain wave moments to display in the final charts."
+    )
     run_btn        = st.button("Run Analysis", use_container_width=True)
-
 # ── Cached training ────────────────────────────────────────────────────────────
 @st.cache_data(show_spinner=False)
 def load_and_train(file_bytes, test_size, random_state, n_estimators, lr_max_iter):
